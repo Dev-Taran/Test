@@ -33,3 +33,39 @@ updateSubmissions();
 // 1분마다 업데이트
 setInterval(updateSubmissions, 60000);
 </code></pre>
+
+---
+
+### submission - 2
+<pre><code>
+function updateSubmissions() {
+    CTFd.api.get_submissions_list({ page: 1, per_page: 20 }).then(response => {
+        if (!response.success) return;
+        
+        var submissions = response.data;
+
+        // correct만 필터링 후 최신 순 정렬
+        var correctSubmissions = submissions
+            .filter(sub => sub.type === "correct")
+            .sort((a, b) => new Date(b.date) - new Date(a.date)) // 최신순 정렬
+            .slice(0, 10); // 최근 10개만 가져오기
+
+        var submissionsContainer = document.getElementById("submissions-list");
+        submissionsContainer.innerHTML = ""; // 기존 리스트 비우기
+
+        correctSubmissions.forEach(sub => {
+            let submissionElement = document.createElement("div");
+            submissionElement.innerHTML = `
+                <p><strong>${sub.team_name || sub.user_name}</strong>: ${sub.challenge} - <span style="color: green">Correct</span></p>
+            `;
+            submissionsContainer.appendChild(submissionElement);
+        });
+    });
+}
+
+// 페이지 로드 시 실행
+updateSubmissions();
+
+// 1분마다 업데이트
+setInterval(updateSubmissions, 60000);
+</code></pre>
