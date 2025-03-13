@@ -252,7 +252,7 @@ body {
 }
 </code></pre>
 
-<pre><code>
+'''
 <div class="container">
     <div class="row">
         {% for challenge in challenges %}
@@ -273,6 +273,6 @@ body {
         {% endfor %}
     </div>
 </div>
-</code></pre>
+'''
 
 ---
