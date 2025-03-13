@@ -198,3 +198,81 @@ for (let i = 0; i < teams.length; i++) {
 
 return option;
 </code></pre>
+
+---
+
+### Challenge Page (Note)
+<pre><code>
+/* 챌린지 페이지 전체 배경 */
+body {
+    background-color: #111;
+    color: #ddd;
+}
+
+/* 챌린지 박스 스타일 */
+.challenge-card {
+    background-color: #222;
+    border-radius: 10px;
+    padding: 15px;
+    text-align: center;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+    transition: 0.3s;
+}
+
+.challenge-card:hover {
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+}
+
+/* 챌린지 제목 */
+.challenge-card .challenge-header {
+    font-size: 16px;
+    font-weight: bold;
+    color: #0f0;
+}
+
+/* 챌린지 태그 */
+.challenge-card .category {
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 3px 7px;
+    border-radius: 5px;
+    font-size: 12px;
+}
+
+/* 점수 표시 */
+.challenge-card .points {
+    font-size: 20px;
+    font-weight: bold;
+    color: #fff;
+}
+
+/* 문제를 풀었을 때 체크 아이콘 */
+.solved-icon {
+    color: #0f0;
+    font-size: 16px;
+}
+</code></pre>
+
+<pre><code>
+<div class="container">
+    <div class="row">
+        {% for challenge in challenges %}
+        <div class="col-md-3">
+            <div class="challenge-card">
+                <div class="challenge-header">
+                    {{ challenge.name }}
+                </div>
+                <div class="challenge-meta">
+                    <span class="category">{{ challenge.category }}</span>
+                    <span class="points">{{ challenge.value }}</span>
+                </div>
+                {% if challenge.solved %}
+                <div class="solved-icon">✔</div>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+</code></pre>
+
+---
