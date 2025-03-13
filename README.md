@@ -1,6 +1,6 @@
 ### submission - 1
 
-'''javascript
+<pre><code>
 function updateSubmissions() {
     CTFd.api.get_submissions_list({ page: 1, per_page: 20 }).then(response => {
         if (!response.success) return;
@@ -32,4 +32,4 @@ updateSubmissions();
 
 // 1분마다 업데이트
 setInterval(updateSubmissions, 60000);
-'''
+</code></pre>
