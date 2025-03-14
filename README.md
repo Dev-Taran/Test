@@ -1,37 +1,135 @@
-### submission - 1
+### Profile - 1
 
 <pre><code>
-function updateSubmissions() {
-    CTFd.api.get_submissions_list({ page: 1, per_page: 20 }).then(response => {
-        if (!response.success) return;
+{% extends "base.html" %}
 
-        var submissions = response.data;
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ url_for('views.themes', path='css/custom-profile.css') }}">
+{% endblock %}
 
-        // correct: true인 데이터만 필터링
-        var correctSubmissions = submissions.filter(sub => sub.correct).slice(0, 10);
+{% block content %}
+<div class="profile-container">
+    <div class="profile-header">
+        <div class="profile-info">
+            <h1>{{ user.team.name if user.team_id else user.name }}</h1>
+            <h2 class="points">{{ account.score }} pts</h2>
+            <p class="last-update">Last update: 
+                {% if solves %}
+                    {{ solves[-1].date | datetimeformat }}
+                {% else %}
+                    N/A
+                {% endif %}
+            </p>
+        </div>
+        <div class="profile-actions">
+            <h3>Members</h3>
+            {% if user.team_id %}
+                <p>{{ user.team.members | join(", ") }}</p>
+            {% else %}
+                <p>Solo player</p>
+            {% endif %}
+            <button class="invite-button">Copy invitation link</button>
+        </div>
+    </div>
 
-        var submissionsContainer = document.getElementById("submissions-list");
+    <div class="profile-solves">
+        <table>
+            <thead>
+                <tr>
+                    <th>Challenge</th>
+                    <th>Category</th>
+                    <th>Score</th>
+                    <th>Solver</th>
+                    <th>Solve at</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for solve in solves %}
+                <tr>
+                    <td>{{ solve.challenge.name }}</td>
+                    <td>{{ solve.challenge.category }}</td>
+                    <td>{{ solve.challenge.value }}</td>
+                    <td>{{ user.name }}</td>
+                    <td>{{ solve.date | datetimeformat }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
+</code></pre>
 
-        // 기존 리스트 비우기
-        submissionsContainer.innerHTML = "";
-
-        // 새로 가져온 데이터 추가
-        correctSubmissions.forEach(sub => {
-            let submissionElement = document.createElement("div");
-            submissionElement.innerHTML = `
-                <p><strong>${sub.team_name || sub.user_name}</strong>: ${sub.challenge} - 
-                <span style="color: green">Correct</span></p>
-            `;
-            submissionsContainer.appendChild(submissionElement);
-        });
-    });
+<pre><code>
+.profile-container {
+    max-width: 900px;
+    margin: auto;
+    color: #fff;
+    background: #181818;
+    padding: 20px;
+    border-radius: 10px;
 }
 
-// 페이지 로드 시 실행
-updateSubmissions();
+.profile-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    border-bottom: 2px solid #444;
+}
 
-// 1분마다 업데이트
-setInterval(updateSubmissions, 60000);
+.profile-info h1 {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.profile-info .points {
+    font-size: 22px;
+    color: #ddd;
+}
+
+.profile-info .last-update {
+    font-size: 14px;
+    color: #aaa;
+}
+
+.profile-actions {
+    text-align: right;
+}
+
+.invite-button {
+    background: #4CAF50;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.profile-solves {
+    margin-top: 20px;
+}
+
+.profile-solves table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.profile-solves th, .profile-solves td {
+    border: 1px solid #444;
+    padding: 8px;
+    text-align: left;
+}
+
+.profile-solves th {
+    background: #222;
+}
+
+.profile-solves tr:nth-child(even) {
+    background: #282828;
+}
 </code></pre>
 
 ---
