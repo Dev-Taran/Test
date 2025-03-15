@@ -1,6 +1,6 @@
 ### Jeopardy & AD nav setup
 
-<pre>
+<code>
 <div class="nav-tabs">
     <button onclick="showTab('jeopardy')">Jeopardy</button>
     <button onclick="showTab('attack-defense')">Attack & Defense</button>
@@ -20,4 +20,4 @@ function showTab(tab) {
     document.getElementById('attack-defense').style.display = tab === 'attack-defense' ? 'block' : 'none';
 }
 </script>
-</pre>
+</code>
